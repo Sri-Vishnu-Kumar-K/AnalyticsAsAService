@@ -1,0 +1,25 @@
+<div ng-controller="PredictionChoiceController" class="pred-choice-window">
+	<div class=""> 
+		<div class="row pred-choice-box">
+			<label class="col-sm-2" for="features">Features</label>
+			<select class="col-sm-4 col-sm-offset-3 pred-feat-select" ng-model="predFeature" ng-options="feature for feature in features track by feature" name="features">
+			</select>
+		</div>
+		<div class="row pred-choice-box">
+			<label class="col-sm-2" for="type">Prediction Type</label>
+			<div class="col-sm-offset-3 col-sm-5">
+				<label class="radio-inline">
+					<input type="radio" ng-model="predType" name="starcount" id="inlineRadio1" value="0"> Classification
+				</label>
+				<label class="radio-inline">
+					<input type="radio" ng-model="predType" name="starcount" id="inlineRadio2" value="1"> Regression
+				</label>
+			</div>
+		</div>
+		<div class="row pred-choice-box">
+			<div class="col-sm-4 col-sm-offset-4">
+				<button type="submit" ng-click="toStepThree()" class="btn btn-default pred-feat-submit">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>

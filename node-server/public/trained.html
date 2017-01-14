@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="nautilusTrain">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.css" media="screen" title="no title" charset="utf-8">
+    <!--<link rel="stylesheet" href="css/bootstrap-theme.css" media="screen" title="no title" charset="utf-8">-->
+    <!--<link href="css/font-awesome.css" rel="stylesheet">-->
+    
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/trained.css" media="screen" title="no title" charset="utf-8">
+    <title>Nautilus</title>
+  </head>
+  <body>
+    <div ng-controller="ScoreCheckerController">
+      <div class="top-bar">
+        <div class="logo-box"><img style="display: inline-block; float: left" src="img/logo-dark.png" width="100%"/></div>
+        <div class="right-buttons">
+          <button ng-click="startOver()" class="start-over">Start Over</button>
+          <button class="logout">Log Out</button>
+        </div>
+      </div>
+        
+    <div class="container form-box">  
+      <form name="scoreForm" ng-submit="scoreChecker()" novalidate>
+        <div class="pratheep-box">
+            <div ng-repeat="(key,value) in pval" class="form-group" ng-class="{'has-error': scoreForm.{{key.split(' ').join('')}}.$error.required && !scoreForm.{{key.split(' ').join('')}}.$pristine}">
+              <label for="{{key.split(' ').join('')}}">{{key}}</label>
+              <input ng-model="pval[key]" required type="number" class="form-control" name="{{key.split(' ').join('')}}" id="{{key.split(' ').join('')}}">
+            </div>
+         </div>
+          <div class="form-group">
+              <div>
+                <button ng-disabled="scoreForm.$invalid" type="submit" class="btn btn-default predict-button">Predict</button>
+              </div>
+              </div>
+          </form>
+      </div>
+      
+      <div class="pop-up-cover" ng-show="popup">
+        <div class="pop-up-box">
+          <center>
+            <div ng-class="{'rec': recommended, 'not-rec': !recommended}">
+              <div class="img"></div>
+              <div class="msg"></div>
+            </div>
+           </center>
+           <button ng-click="dismissPopup()" class="proceed-button">Dismiss</button>
+        </div>
+      </div>
+    
+    </div>
+    
+      <script src="js/angular.js"></script>
+      <script src="js/angular-route.min.js"></script>
+      <script src="js/trained.js" charset="utf-8"></script>
+  </body>
+</html>

@@ -1,0 +1,194 @@
+body{
+	font-family: 'Lato', sans-serif;
+	overflow-x: hidden;
+	background: rgb(38,50,56);
+	color: #e0f2f1;
+}
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+	background: rgba(69,90,100,0.5);
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #26a69a; 
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); */
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: #26a69a; 
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.top-bar{
+	width: 100%;
+	height: 100px;
+	background: rgb(38,50,56);
+}
+
+.logo-box{
+	width: 233px;
+	height: 48px;
+	padding: 26px
+}
+
+.right-buttons{
+	float: right;
+	display: inline-block;
+	width: 500px;
+	margin-top: -25px;
+	margin-right: -190px;
+}
+
+.start-over{
+	width: 120px;
+	height: 40px;
+	color: #ef5350;
+	font-size: 16px;
+	font-weight: 400;
+	background: rgb(38,50,56);
+	border: 2px solid #ef5350;
+	border-radius: 50px;
+	margin-right: 30px;
+}
+
+.start-over:hover{
+	color: #e0f2f1;
+	background: #ef5350;
+}
+
+.logout, .predict-button{
+	width: 120px;
+	height: 40px;
+	color: #e0f2f1;
+	font-size: 16px;
+	font-weight: 400;
+	background: #339999;
+	border: 1px solid #339999;
+	border-radius: 50px;
+	margin-right: 30px;
+}
+
+.form-box{
+	width: 700px;
+	margin: 38px auto;
+}
+
+form{
+	width: 700px;
+}
+
+form label{
+	color: #26a69a;
+	font-size: 14px;
+}
+
+form input[type="number"]{
+	border: 2px solid #26a69a;
+	height: 40px;
+	border-radius: 70px;
+	background: rgb(38,50,56);
+	color: #e0f2f1;
+	font-size: 16px;
+	margin-bottom: 40px;
+}
+
+.pratheep-box{
+	width: 700px;
+	height: 380px;
+	overflow: scroll;
+	overflow-x: hidden;
+	padding: 20px 40px;
+	box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+}
+
+.predict-button{
+	margin-top : 20px;
+	width: 100%;
+}
+
+.logout:hover{
+	background: #26a69a;
+}
+
+
+.pop-up-cover{
+	float: left;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.8);
+}
+
+.pop-up-box{
+	width: 500px;
+	height: 300px;
+	margin: 170px auto;
+	background : #fefefe;
+	border-radius: 5px;
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.8);
+}
+.rec, .not-rec{
+	padding-top : 30px;
+}
+
+.img{
+	width: 100px;
+	height: 100px;
+}
+
+.rec .img{
+	background: url('../img/rec.png');
+	background-size: contain;
+}
+
+.not-rec .img{
+	background: url('../img/not-rec.png');
+	background-size: contain;
+}
+
+.msg{
+	padding-top: 20px;
+	color: #333;
+	font-size: 20px;
+}
+
+.rec .msg:after{
+	content: "Recommended";
+}
+
+.not-rec .msg:after{
+	content: "Not Recommended";
+}
+
+.proceed-button{
+	width: 90%;
+	margin: 20px 0px 0px 22px;
+	height: 60px;
+	color: #e0f2f1;
+	font-size: 20px;
+	font-weight: 400;
+	background: #339999;
+	border: 1px solid #339999;
+	border-radius: 50px;
+	margin-right: 30px;
+}

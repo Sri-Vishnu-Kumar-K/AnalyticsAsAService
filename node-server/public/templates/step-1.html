@@ -1,0 +1,20 @@
+<div ng-controller="UploadController" class="upload-window">
+	<div class="upload-box">
+		<div class="row">
+			<div ng-hide="f.progress >= 0"  class="col-xs-12 col-xs-offset-5">
+				<button class="select-file-button" type="file" ngf-select="uploadFiles($file, $invalidFiles)" ngf-max-height="1000">
+					Select File
+				</button>
+				<!--<span style="padding-left: 20px">File:  {{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}</span> -->
+			</div>
+		</div>
+		<div class="progress-track" ng-show="f.progress >= 0">
+			<div class="progress" style="width:{{f.progress}}%"></div>
+		</div> 
+	
+		<p class="uploaded-text" ng-show="f.progress >= 100">Uploaded</p> 
+		{{errorMsg}}
+	</div>
+	
+<button class="next-button" ng-click="toStepTwo()" ng-disabled="fileNotUploaded">Next</button>
+</div>

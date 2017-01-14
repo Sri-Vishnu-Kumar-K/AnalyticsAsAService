@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="nautilus">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.css" media="screen" title="no title" charset="utf-8">
+    <!--<link rel="stylesheet" href="css/bootstrap-theme.css" media="screen" title="no title" charset="utf-8">-->
+    <!--<link href="css/font-awesome.css" rel="stylesheet">-->
+    
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/style.css" media="screen" title="no title" charset="utf-8">
+    <title>Nautilus</title>
+  </head>
+  <body>
+    
+    <div class="container-fluid" ng-controller="LoginController">
+      <div class="row full-page">
+        <div class="col-xs-4 logo-box">
+          <center>
+            <img src="img/logo.png" alt="Nautilus Logo" width="114px"/>
+            <p class="logo-text">Nautilus.</p>
+            <div class="logo-underline"></div>
+            <p class="description">We have a hightly intuitive GUI, built with a lot of thought and focus on
+               User Experience. Building Models is as easy as clicking a button.</p>
+          </center>
+          <div class="filled-logo"><img src="img/logo-filled.png" width="260px"></div>
+        </div>
+        <div class="col-xs-8">
+          <div class="login">
+            <form name="loginForm" ng-submit="loginCall()" novalidate>
+              <div class="form-group" ng-class="{'has-error': loginForm.username.$error.required && !loginForm.username.$pristine}">
+                <label for="username">Username</label>
+                <input ng-model="data.username" required type="text" class="form-control" name="username" id="username">
+              </div>
+              <div class="form-group" ng-class="{'has-error': loginForm.password.$error.required && !loginForm.password.$pristine}">
+                <label for="password">Password</label>
+                <input ng-model="data.password" required type="password" class="form-control" name="password" id="password">
+              </div>
+              <div class="form-group">
+                <div class="col-xs-10 col-xs-offset-3">
+                  <button ng-disabled="loginForm.$invalid" type="submit" class="btn btn-default login-btn">Log In</button>
+                </div>
+               </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <script src="js/angular.js"></script>
+      <script src="js/angular-route.min.js"></script>
+      <script src="js/index.js" charset="utf-8"></script>
+  </body>
+</html>

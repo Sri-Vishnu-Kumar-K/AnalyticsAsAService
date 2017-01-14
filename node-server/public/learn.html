@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="nautilus-learn">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.css" media="screen" title="no title" charset="utf-8">
+    <!--<link rel="stylesheet" href="css/bootstrap-theme.css" media="screen" title="no title" charset="utf-8">-->
+    <!--<link href="css/font-awesome.css" rel="stylesheet">-->
+    
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/learn.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="css/radial.css" media="screen" title="no title" charset="utf-8">
+    <title>Nautilus</title>
+  </head>
+  <body>
+    <div ng-controller="StepController">
+      <div class="top-bar">
+        <div class="logo-box"><img style="display: inline-block; float: left" src="img/logo-filled.png" width="70px"/><p class="logo-name">Nautilus.</p></div>
+        <div class="right-buttons">
+          <button ng-click="startOver()" class="start-over">Start Over</button>
+          <button class="logout">Log Out</button>
+        </div>
+      </div>
+      
+      <div class="step-block">
+        <div class="step-box"><div id="step-1" ng-class="currentStep >= 1 ? 'filled-step' : 'unfilled-step'" class="step">1</div><p>Upload</p></div>
+        <div class="line"></div>
+        <div class="step-box"><div id="step-2" ng-class="currentStep >= 2 ? 'filled-step' : 'unfilled-step'" class="step">2</div><p>Prediction Choice</p></div>
+        <div class="line"></div>
+        <div class="step-box"><div id="step-3" ng-class="currentStep >= 3 ? 'filled-step' : 'unfilled-step'" class="step">3</div><p>Feature Selection</p></div>
+        <div class="line"></div>
+        <div class="step-box"><div id="step-4" ng-class="currentStep >= 4 ? 'filled-step' : 'unfilled-step'" class="step">4</div><p>Finish</p></div>
+      </div>
+      
+      <ng-view></ng-view>
+    </div>
+      <script src="js/angular.js"></script>
+      <script src="js/angular-route.min.js"></script>
+      <script src="js/ng-file-upload.js"></script>
+      <script src="js/learn.js" charset="utf-8"></script>
+  </body>
+</html>
