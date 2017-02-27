@@ -6,21 +6,42 @@ import pickle
 
 def getFeatures(request):
     path = request.GET.get('path')
-    print path
+    # print path
     df = pd.read_csv(path)
     cols = []
     for col in df.columns:
         cols.append(col)
-    retval = {"keys":cols}
+    retval = {"keys": cols}
     return HttpResponse(json.dumps(retval))
+
+
+def fvals(request):
+    from sklearn.feature_selection import mutual_info_regression
+    path = request.GET.get('path')
+    feature_name = request.GET.get('feature')
+    # print path
+    # print feature_name
+    df = pd.read_csv(path)
+    df.set_index('ID', inplace=True)
+    df.fillna(value=0, inplace=True)
+    cols = []
+    for col in df.columns:
+        cols.append(col)
+    cols.remove(feature_name)
+    mival = mutual_info_regression(df[cols], df[feature_name])
+    max_mival = max(mival)
+    mivalDict = [{'key': cols[i], 'pvalue': (mival[i]/max_mival) * 100.0, 'selected': False} for i in
+                range(0, len(cols))]
+    # print json.dumps(PvalDict)
+    return HttpResponse(json.dumps(mivalDict))
 
 
 def pvals(request):
     from sklearn.feature_selection import chi2
     path = request.GET.get('path')
     feature_name = request.GET.get('feature')
-    print path
-    print feature_name
+    # print path
+    # print feature_name
     df = pd.read_csv(path)
     df.set_index('ID', inplace=True)
     df.fillna(value=0, inplace=True)
@@ -38,7 +59,7 @@ def pvals(request):
 
     PvalDict = [{'key': cols[i], 'pvalue': (1.0 - pval[i]) * 100.0, 'selected': False} for i in
                 range(0, len(cols))]
-    print json.dumps(PvalDict)
+    # print json.dumps(PvalDict)
     return HttpResponse(json.dumps(PvalDict))
 
 
@@ -95,8 +116,8 @@ def buildModelClass(request):
         resAcc = adaScore
         model = ada
 
-    print model
-    print resAcc
+    # print model
+    # print resAcc
     resAccJson = {'result': resAcc}
     f = open('FinalPickle.pickle', 'w')
     pickle.dump(model, f)
@@ -107,8 +128,7 @@ def buildModelClass(request):
 def buildModelRegression(request):
     from sklearn.metrics import mean_squared_error
     from sklearn.linear_model import LinearRegression
-    from sklearn.tree import DecisionTreeRegressor
-    from sklearn.ensemble import AdaBoostRegressor, RandomForestRegressor, GradientBoostingRegressor
+    from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
     from sklearn.cross_validation import train_test_split
     retVal = request.GET.get('data')
     data = json.loads(retVal)
@@ -151,8 +171,8 @@ def buildModelRegression(request):
         resAcc = gbScore
         model = gb
 
-    print model
-    print resAcc
+    # print model
+    # print resAcc
     resAccJson = {'result': resAcc}
     f = open('FinalPickle.pickle', 'w')
     pickle.dump(model, f)
@@ -162,7 +182,7 @@ def buildModelRegression(request):
 
 def runModel(request):
     data = request.GET.get('json')
-    print data
+    # print data
     df = pd.read_json(data, orient='index', typ='Series')
     f = open('FinalPickle.pickle', 'r')
     model = pickle.load(f)
