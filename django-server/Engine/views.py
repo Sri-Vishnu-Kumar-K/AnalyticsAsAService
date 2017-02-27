@@ -65,7 +65,7 @@ def pvals(request):
 
 def buildModelClass(request):
     from sklearn.ensemble import AdaBoostClassifier
-    from sklearn.cross_validation import train_test_split
+    from sklearn.model_selection import train_test_split
     from sklearn.svm import LinearSVC
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.tree import DecisionTreeClassifier
@@ -129,7 +129,7 @@ def buildModelRegression(request):
     from sklearn.metrics import mean_squared_error
     from sklearn.linear_model import LinearRegression
     from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-    from sklearn.cross_validation import train_test_split
+    from sklearn.model_selection import train_test_split
     retVal = request.GET.get('data')
     data = json.loads(retVal)
     path = data['path']
