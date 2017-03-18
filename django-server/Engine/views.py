@@ -2,35 +2,35 @@ from django.http import HttpResponse
 import pandas as pd
 import json
 import pickle
+import os
 
+from . import utils
 
 def getFeatures(request):
-    path = request.GET.get('path')
-    # print path
-    df = pd.read_csv(path)
+    dataPath = request.GET.get('path')
+    df = pd.read_csv(dataPath)
     cols = []
     for col in df.columns:
         cols.append(col)
     retval = {"keys": cols}
     return HttpResponse(json.dumps(retval))
 
-
 def fvals(request):
     from sklearn.feature_selection import mutual_info_regression
-    path = request.GET.get('path')
-    feature_name = request.GET.get('feature')
+    dataPath = request.GET.get('path')
+    featureName = request.GET.get('feature')
     # print path
     # print feature_name
-    df = pd.read_csv(path)
+    df = pd.read_csv(dataPath)
     df.set_index('ID', inplace=True)
     df.fillna(value=0, inplace=True)
     cols = []
     for col in df.columns:
         cols.append(col)
-    cols.remove(feature_name)
-    mival = mutual_info_regression(df[cols], df[feature_name])
-    max_mival = max(mival)
-    mivalDict = [{'key': cols[i], 'pvalue': (mival[i]/max_mival) * 100.0, 'selected': False} for i in
+    cols.remove(featureName)
+    mival = mutual_info_regression(df[cols], df[featureName])
+    maxMival = max(mival)
+    mivalDict = [{'key': cols[i], 'pvalue': (mival[i]/maxMival) * 100.0, 'selected': False} for i in
                 range(0, len(cols))]
     # print json.dumps(PvalDict)
     return HttpResponse(json.dumps(mivalDict))
@@ -38,24 +38,24 @@ def fvals(request):
 
 def pvals(request):
     from sklearn.feature_selection import chi2
-    path = request.GET.get('path')
-    feature_name = request.GET.get('feature')
+    dataPath = request.GET.get('path')
+    featureName = request.GET.get('feature')
     # print path
     # print feature_name
-    df = pd.read_csv(path)
+    df = pd.read_csv(dataPath)
     df.set_index('ID', inplace=True)
     df.fillna(value=0, inplace=True)
     cols = []
     for col in df.columns:
         cols.append(col)
-    cols.remove(feature_name)
+    cols.remove(featureName)
     for col in cols:
         if min(df[col]) < 0:
             adder = -1 * min(df[col])
         else:
             adder = min(df[col])
         df.loc[:, col] += adder
-    chi2val, pval = chi2(df[cols], df[feature_name])
+    chi2val, pval = chi2(df[cols], df[featureName])
 
     PvalDict = [{'key': cols[i], 'pvalue': (1.0 - pval[i]) * 100.0, 'selected': False} for i in
                 range(0, len(cols))]
@@ -70,19 +70,31 @@ def buildModelClass(request):
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.tree import DecisionTreeClassifier
     retVal = request.GET.get('data')
+
     data = json.loads(retVal)
-    path = data['path']
-    feature_name = data['feature']
+
+    dataPath = data['path']
+    featureName = data['feature']
     selectVars = data['keys']
-    df = pd.read_csv(path)
+    modelName = data['modelName']
+
+    path = utils.findUserName(data)
+    if path=='':
+        #print('Path not found Error')
+        return HttpResponse(json.dumps({'result':'Username not found!'}))
+
+    if os.path.exists(os.path.join(path,modelName)+'.pickle'):
+        return HttpResponse(json.dumps({'result':'Model Name exists'}))
+
+    f = open(os.path.join(path,modelName)+'_cols.pickle', 'wb')
+    pickle.dump(selectVars, f)
+    f.close()
+
+    df = pd.read_csv(dataPath)
     df.set_index('ID', inplace=True)
 
     X = df[selectVars]
-    y = df[feature_name]
-
-    f = open('cols.pickle', 'w')
-    pickle.dump(selectVars, f)
-    f.close()
+    y = df[featureName]
 
     XTrain, XTest, yTrain, yTest = train_test_split(X, y, test_size=0.3)
 
@@ -119,7 +131,9 @@ def buildModelClass(request):
     # print model
     # print resAcc
     resAccJson = {'result': resAcc}
-    f = open('FinalPickle.pickle', 'w')
+    # print(resAcc)
+    # print(path+modelName)
+    f = open(os.path.join(path,modelName)+'.pickle', 'wb')
     pickle.dump(model, f)
     f.close()
     return HttpResponse(json.dumps(resAccJson))
@@ -131,19 +145,32 @@ def buildModelRegression(request):
     from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
     from sklearn.model_selection import train_test_split
     retVal = request.GET.get('data')
+
     data = json.loads(retVal)
-    path = data['path']
+    dataPath = data['path']
+    featureName = data['feature']
     selectVars = data['keys']
-    feature_name = data['feature']
-    df = pd.read_csv(path)
+    modelName = data['modelName']
+
+    path = utils.findUserName(data)
+
+    if path=='':
+        #print('Path not found Error')
+        return HttpResponse(json.dumps({'result':'Username not found!'}))
+
+    if os.path.exists(os.path.join(path,modelName)+'.pickle'):
+        return HttpResponse(json.dumps({'result':'Model Name exists'}))
+
+
+    f = open(os.path.join(path,modelName)+'_cols.pickle', 'wb')
+    pickle.dump(selectVars, f)
+    f.close()
+
+    df = pd.read_csv(dataPath)
     df.set_index('ID', inplace=True)
 
     X = df[selectVars]
-    y = df[feature_name]
-
-    f = open('cols.pickle', 'w')
-    pickle.dump(selectVars, f)
-    f.close()
+    y = df[featureName]
 
     XTrain, XTest, yTrain, yTest = train_test_split(X, y, test_size=0.3)
 
@@ -174,21 +201,53 @@ def buildModelRegression(request):
     # print model
     # print resAcc
     resAccJson = {'result': resAcc}
-    f = open('FinalPickle.pickle', 'w')
+    f = open(os.path.join(path,modelName)+'.pickle', 'wb')
     pickle.dump(model, f)
     f.close()
     return HttpResponse(json.dumps(resAccJson))
 
+def getColumns(request):
+    data = request.GET.get('data')
+
+    data = json.loads(data)
+    modelName = data['modelName']
+    path = utils.findUserName(data)
+
+    if path=='':
+        #print('Path not found Error')
+        return HttpResponse(json.dumps({'result':'Username not found!'}))
+
+    if os.path.exists(os.path.join(path,modelName)+'.pickle') == False:
+        return HttpResponse(json.dumps({'result':'Model does not exist'}))
+
+    # print(os.path.join(path,modelName))
+    f = open(os.path.join(path,modelName)+'_cols.pickle','rb')
+    selectVars = pickle.load(f)
+    f.close()
+    return HttpResponse(json.dumps({'result':selectVars}))
+
 
 def runModel(request):
-    data = request.GET.get('json')
-    # print data
-    df = pd.read_json(data, orient='index', typ='Series')
-    f = open('FinalPickle.pickle', 'r')
+    data = request.GET.get('data')
+    dataJson = data['dataJson']
+    modelName = data['modelName']
+    path = utils.findUserName(data)
+    if path=='':
+        #print('Path not found Error')
+        return HttpResponse(json.dumps({'result':'Username not found!'}))
+
+    if os.path.exists(os.path.join(path,modelName)+'.pickle') == False:
+        return HttpResponse(json.dumps({'result':'Model does not exist'}))
+
+    # print(os.path.join(path,modelName))
+    f = open(os.path.join(path,modelName)+'.pickle','rb')
     model = pickle.load(f)
     f.close()
-    f = open('cols.pickle', 'r')
-    Vars = pickle.load(f)
+    # print data
+    df = pd.read_json(dataJson, orient='index', typ='Series')
+    f = open(os.path.join(path,modelName)+'_cols.pickle','rb')
+    selectVars = pickle.load(f)
     f.close()
-    res = model.predict(df[Vars].reshape(1, -1))
+
+    res = model.predict(df[selectVars].reshape(1, -1))
     return HttpResponse(str(res[0]))

@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     url(r'^getFeatures', views.getFeatures, name='getFeatures'),
+    url(r'^getColumns', views.getColumns, name='getColumns'),
     url(r'^pvals', views.pvals, name='pvals'),
     url(r'^fvals', views.fvals, name='fvals'),
     url(r'^buildModelClass', views.buildModelClass, name='buildModelClass'),
