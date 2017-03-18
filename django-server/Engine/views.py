@@ -3,7 +3,8 @@ import pandas as pd
 import json
 import pickle
 import os
-
+import threading
+from sklearn.model_selection import train_test_split
 from . import utils
 
 def getFeatures(request):
@@ -64,11 +65,6 @@ def pvals(request):
 
 
 def buildModelClass(request):
-    from sklearn.ensemble import AdaBoostClassifier
-    from sklearn.model_selection import train_test_split
-    from sklearn.svm import LinearSVC
-    from sklearn.ensemble import RandomForestClassifier
-    from sklearn.tree import DecisionTreeClassifier
     retVal = request.GET.get('data')
 
     data = json.loads(retVal)
@@ -101,29 +97,48 @@ def buildModelClass(request):
     resAcc = 0
     model = None
 
-    lsvc = LinearSVC()
-    lsvc.fit(XTrain, yTrain)
-    lsvcScore = lsvc.score(XTest, yTest)
+    lsvcThread = utils.ModelThread(1, XTrain, yTrain, XTest, yTest)
+    dtThread = utils.ModelThread(2, XTrain, yTrain, XTest, yTest)
+    rfThread = utils.ModelThread(3, XTrain, yTrain, XTest, yTest)
+    adaThread = utils.ModelThread(4, XTrain, yTrain, XTest, yTest)
+    lsvcThread.start()
+    dtThread.start()
+    rfThread.start()
+    adaThread.start()
+    # lsvc = LinearSVC()
+    # lsvc.fit(XTrain, yTrain)
+    # lsvcScore = lsvc.score(XTest, yTest)
+
+    lsvcThread.join()
+    dtThread.join()
+    rfThread.join()
+    adaThread.join()
+    lsvcScore, lsvc = lsvcThread.getAnswer()
     if resAcc < lsvcScore:
         resAcc = lsvcScore
         model = lsvc
 
-    dt = DecisionTreeClassifier()
-    dt.fit(XTrain, yTrain)
-    dtScore = dt.score(XTest, yTest)
+    # dt = DecisionTreeClassifier()
+    # dt.fit(XTrain, yTrain)
+    # dtScore = dt.score(XTest, yTest)
+    dtScore, dt = dtThread.getAnswer()
     if resAcc < dtScore:
         resAcc = dtScore
         model = dt
-    rf = RandomForestClassifier()
-    rf.fit(XTrain, yTrain)
-    rfScore = rf.score(XTest, yTest)
+
+
+    # rf = RandomForestClassifier()
+    # rf.fit(XTrain, yTrain)
+    # rfScore = rf.score(XTest, yTest)
+    rfScore, rf = rfThread.getAnswer()
     if resAcc < rfScore:
         resAcc = rfScore
         model = rf
 
-    ada = AdaBoostClassifier()
-    ada.fit(XTrain, yTrain)
-    adaScore = ada.score(XTest, yTest)
+    # ada = AdaBoostClassifier()
+    # ada.fit(XTrain, yTrain)
+    # adaScore = ada.score(XTest, yTest)
+    adaScore, ada = adaThread.getAnswer()
     if resAcc < adaScore:
         resAcc = adaScore
         model = ada
@@ -140,10 +155,6 @@ def buildModelClass(request):
 
 
 def buildModelRegression(request):
-    from sklearn.metrics import mean_squared_error
-    from sklearn.linear_model import LinearRegression
-    from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-    from sklearn.model_selection import train_test_split
     retVal = request.GET.get('data')
 
     data = json.loads(retVal)
@@ -176,24 +187,37 @@ def buildModelRegression(request):
 
     resAcc = 0
     model = None
+    lrThread = utls.ModelThread(5, XTrain, yTrain, XTest, yTest)
+    rfThread = utils.ModelThread(6, XTrain, yTrain, XTest, yTest)
+    gbThread = utils.ModelThread(7, XTrain, yTrain, XTest, yTest)
 
-    lr = LinearRegression()
-    lr.fit(XTrain, yTrain)
-    lrScore = mean_squared_error(lr.predict(XTest), yTest)
+    lrThread.start()
+    rfThread.start()
+    gbThread.start()
+
+    lrThread.join()
+    rfThread.join()
+    gbThread.join()
+    # lr = LinearRegression()
+    # lr.fit(XTrain, yTrain)
+    # lrScore = mean_squared_error(lr.predict(XTest), yTest)
+    lrScore, lr = lrThread.getAnswer()
     if resAcc > lrScore:
         resAcc = lrScore
         model = lrScore
 
-    rf = RandomForestRegressor()
-    rf.fit(XTrain, yTrain)
-    rfScore = mean_squared_error(rf.predict(XTest), yTest)
+    # rf = RandomForestRegressor()
+    # rf.fit(XTrain, yTrain)
+    # rfScore = mean_squared_error(rf.predict(XTest), yTest)
+    rfScore, rf = rfThread.getAnswer()
     if resAcc > rfScore:
         resAcc = rfScore
         model = rf
 
-    gb = GradientBoostingRegressor()
-    gb.fit(XTrain, yTrain)
-    gbScore = mean_squared_error(gb.predict(XTest), yTest)
+    # gb = GradientBoostingRegressor()
+    # gb.fit(XTrain, yTrain)
+    # gbScore = mean_squared_error(gb.predict(XTest), yTest)
+    gbScore, gb = gbThread.getAnswer()
     if resAcc > gbScore:
         resAcc = gbScore
         model = gb
