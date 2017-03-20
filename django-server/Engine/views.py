@@ -7,6 +7,14 @@ import threading
 from sklearn.model_selection import train_test_split
 from . import utils
 
+def dirExists(request):
+    userName = request.GET.get('userName')
+    response = utils.createDir(userName)
+    if response == True:
+        return HttpResponse(json.dumps({'exists':True}))
+    else:
+        return HttpResponse(json.dumps({'exists':False}))
+
 def getFeatures(request):
     dataPath = request.GET.get('path')
     df = pd.read_csv(dataPath)

@@ -2,6 +2,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
+    url(r'^dirExists', views.dirExists, name='dirExists'),
     url(r'^getFeatures', views.getFeatures, name='getFeatures'),
     url(r'^getColumns', views.getColumns, name='getColumns'),
     url(r'^pvals', views.pvals, name='pvals'),

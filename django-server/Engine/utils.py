@@ -71,3 +71,13 @@ def findUserName(data):
             if directory == userName:
                 path = os.path.join(root,directory)
     return path
+
+def createDir(name):
+    root = 'G:/Sem 8/AnalyticsAsAService/UserData/'
+    if os.path.exists(os.path.join(root,name)):
+        return True
+    os.mkdir(os.path.join(root,name))
+    if os.path.exists(os.path.join(root,name)):
+        return True
+    else:
+        return False
