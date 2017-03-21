@@ -119,8 +119,8 @@ angular.module("nautilus-learn", ['ngRoute','ngFileUpload'])
           }
 
           console.log(arr)
-          console.log($scope.modelName);
-          console.log($scope.$parent.modelName);
+          console.log("Scope modelName: ", $scope.modelName);
+        //  console.log($scope.$parent.modelName);
           var data = {
               path : $scope.filepath,
               keys : arr,

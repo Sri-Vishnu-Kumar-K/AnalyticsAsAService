@@ -159,11 +159,8 @@ router.get("/get-selected-feat", function(req, res, next){
 })
 
 
-	 router.post("/call-build-model", function(req, res, next){
+router.post("/call-build-model", function(req, res, next){
 
-	 // console.log("Cookie value /call-build-model: ", req.session.user);
-
-	 //console.log("Request data 1111: ", );
 	 var jsonData = JSON.parse(req.body.data);
 	 console.log(jsonData);
 	 var requestUrl = 'http://127.0.0.1:8000/Engine/buildModel' + jsonData.urlType + '/?data=';
@@ -176,13 +173,27 @@ router.get("/get-selected-feat", function(req, res, next){
         console.log("Call done!");
      }
 
-//		 console.log("call-build-model response: ", response.body);
-
 		 response = JSON.stringify(response);
-		 // console.log("Call-build-model response: ", res.json(response));
 		 res.json(response);
 
 })
+})
+
+router.post("/call-run-model", function(req, res, next){
+
+	var jsonData = JSON.parse(req.body.data);
+	console.log(jsonData);
+	jsonData.userName = req.session.user.username;
+	var requestUrl = 'http://127.0.0.1:8000/Engine/runModel/?data=' + JSON.stringify(jsonData);
+	console.log("/call-run-model requestUrl: ", requestUrl);
+	request(requestUrl, function(error, response, body) {
+		if( !error && response.statusCode == 200) {
+			console.log("Call done!");
+		}
+
+		response = JSON.stringify(response);
+		res.json(response);
+	})
 })
 
 function makeid()
