@@ -258,6 +258,17 @@ def getColumns(request):
     f.close()
     return HttpResponse(json.dumps({'result':selectVars}))
 
+def getModels(request):
+    userName = request.GET.get('userName')
+    data = {'userName':userName}
+    path = utils.findUserName(data)
+    models = []
+    for root, dirs, files in os.walk(path):
+        for file_ in files:
+            if '_cols' not in file_:
+                models.append(file_.split('.')[0])
+    # print(models)
+    return HttpResponse(json.dumps({'result':models}))
 
 def runModel(request):
     data = request.GET.get('data')

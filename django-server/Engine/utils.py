@@ -64,16 +64,21 @@ class ModelThread(threading.Thread):
 def findUserName(data):
 
     userName = data['userName']
-
+    # print(os.getcwd())
+    cwdPath = os.getcwd()+'/UserData/'
+    # print(cwdPath)
+    # print(os.path.exists(cwdPath))
     path = ''
-    for root, dirs, files in os.walk('/home/ronaktanna/Desktop/FinalRepo/AnalyticsAsAService/UserData/'):
+    for root, dirs, files in os.walk(cwdPath):
         for directory in dirs:
+            # print(directory)
             if directory == userName:
                 path = os.path.join(root,directory)
     return path
 
 def createDir(name):
-    root = '/home/ronaktanna/Desktop/FinalRepo/AnalyticsAsAService/UserData/'
+    root = os.getcwd()+'/UserData/'
+    # print(os.path.exists(root))
     if os.path.exists(os.path.join(root,name)):
         return True
     os.mkdir(os.path.join(root,name))
