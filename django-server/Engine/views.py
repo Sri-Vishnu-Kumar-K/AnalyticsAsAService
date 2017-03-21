@@ -272,6 +272,7 @@ def getModels(request):
 
 def runModel(request):
     data = request.GET.get('data')
+    data = json.loads(data)
     dataJson = data['dataJson']
     modelName = data['modelName']
     path = utils.findUserName(data)
