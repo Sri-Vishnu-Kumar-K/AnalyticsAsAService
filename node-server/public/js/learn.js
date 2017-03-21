@@ -102,7 +102,10 @@ angular.module("nautilus-learn", ['ngRoute','ngFileUpload'])
       $http.get("/get-file-path", {}).then(function(response){
           console.log(response.data.filepath)
           $scope.filepath = response.data.filepath;
-          $http.get("http://127.0.0.1:8000/Engine/pvals/?path=" + response.data.filepath + "&feature=" + $memoryFactory.getPredFeature(), {}).then(function(response){
+          var vals;
+          if ($memoryFactory.getPredType() == 0) vals = "pvals"; else vals = "fvals";
+          console.log("Vals value: *****: ", vals);
+          $http.get("http://127.0.0.1:8000/Engine/" + vals + "/?path=" + response.data.filepath + "&feature=" + $memoryFactory.getPredFeature(), {}).then(function(response){
                 console.log("Feature Selection Controller: ", response);
                 $scope.features = response.data;
             }, function(response){

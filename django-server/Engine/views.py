@@ -195,7 +195,7 @@ def buildModelRegression(request):
 
     resAcc = 0
     model = None
-    lrThread = utls.ModelThread(5, XTrain, yTrain, XTest, yTest)
+    lrThread = utils.ModelThread(5, XTrain, yTrain, XTest, yTest)
     rfThread = utils.ModelThread(6, XTrain, yTrain, XTest, yTest)
     gbThread = utils.ModelThread(7, XTrain, yTrain, XTest, yTest)
 
@@ -233,6 +233,7 @@ def buildModelRegression(request):
     # print model
     # print resAcc
     resAccJson = {'result': resAcc}
+    print("Result accuracy regression: ", resAccJson);
     f = open(os.path.join(path,modelName)+'.pickle', 'wb')
     pickle.dump(model, f)
     f.close()
