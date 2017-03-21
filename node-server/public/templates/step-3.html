@@ -1,8 +1,11 @@
 <div ng-controller="FeatureSelectionController" class="feat-select-window">
+	<div>
+		<input type="text" ng-model="modelName" name="modelName"/>
+	</div>
 	<div class="feat-select row">
 		<div class="col-xs-3 feature-box" ng-click="toggleClass(feat)"  ng-repeat="feat in features">
 			<div class="progress-holder">
-				<div class="radial-progress" 
+				<div class="radial-progress"
 				data-progress="{{feat.pvalue| number:0}}">
 					<div class="circle">
 						<div class="mask full">
@@ -25,7 +28,7 @@
 				<div ng-class="{'selected': feat.selected, 'unselected' : !feat.selected }"></div>
 	</div>
 	</div>
-	
-	
+
+
 	<button class="next-button" ng-click="toStepFour()">Next</button>
 </div>

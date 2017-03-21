@@ -66,14 +66,14 @@ def findUserName(data):
     userName = data['userName']
 
     path = ''
-    for root, dirs, files in os.walk('G:/Sem 8/AnalyticsAsAService/UserData/'):
+    for root, dirs, files in os.walk('/home/ronaktanna/Desktop/FinalRepo/AnalyticsAsAService/UserData/'):
         for directory in dirs:
             if directory == userName:
                 path = os.path.join(root,directory)
     return path
 
 def createDir(name):
-    root = 'G:/Sem 8/AnalyticsAsAService/UserData/'
+    root = '/home/ronaktanna/Desktop/FinalRepo/AnalyticsAsAService/UserData/'
     if os.path.exists(os.path.join(root,name)):
         return True
     os.mkdir(os.path.join(root,name))
