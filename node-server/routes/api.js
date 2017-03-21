@@ -151,7 +151,7 @@ router.get("/get-selected-feat", function(req, res, next){
 					res.json({});
 				}
 				var data = {
-					keys : user.features
+					keys : User.features// User.features user.features
 				}
 				res.json(data);
 			console.log("The file path retrieved" + data.filepath);
@@ -176,7 +176,10 @@ router.get("/get-selected-feat", function(req, res, next){
         console.log("Call done!");
      }
 
+//		 console.log("call-build-model response: ", response.body);
+
 		 response = JSON.stringify(response);
+		 // console.log("Call-build-model response: ", res.json(response));
 		 res.json(response);
 
 })
