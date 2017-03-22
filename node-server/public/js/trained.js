@@ -8,13 +8,41 @@ angular.module("nautilusTrain",[])
 	$scope.popup = false;
 	$scope.recommended = true;
 
-	$http.get("/get-selected-feat", {}).then(function(res){
+	/*$http.get("/get-selected-feat", {}).then(function(res){
 		// $scope.features = res.data.keys
 		for(var i=0 ; i< res.data.keys.length; i++)
 			$scope.pval[res.data.keys[i]] = "";
 		console.log(res.data.keys)
 	}, function(res){
 		console.log("err : " + res)
+	})*/
+
+	var getColsData = {
+		userName: "",
+		modelName: "12345678"//$scope.$parent.modelName,
+	};
+
+	console.log("getColsData: ", getColsData);
+
+	$http({
+		method: 'POST',
+		url: 'http://localhost:3000/call-get-columns',
+		data: 'data='+JSON.stringify(getColsData),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).then(function(res){
+
+		console.log("call-get-columns response: ", res);
+		resData = JSON.parse(res.data);
+		console.log("resData: ", resData);
+		resBody = JSON.parse(resData.body);
+		console.log("resBody: ", resBody);
+		var parsingArray = resBody.result;
+		console.log("parsingArray: ", parsingArray);
+		for(var i=0 ; i< parsingArray.length; i++)
+			$scope.pval[parsingArray[i]] = "";
+		console.log(parsingArray);
+	},function(res){
+			console.log('err : ' + res);
 	})
 
 	$scope.result = 0;

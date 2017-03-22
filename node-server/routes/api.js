@@ -196,6 +196,22 @@ router.post("/call-run-model", function(req, res, next){
 	})
 })
 
+router.post("/call-get-columns", function(req, res, next){
+	var jsonData = JSON.parse(req.body.data);
+	console.log(jsonData);
+	jsonData.userName = req.session.user.username;
+	var requestUrl = 'http://127.0.0.1:8000/Engine/getColumns/?data=' + JSON.stringify(jsonData);
+	console.log("call-get-columns request url = ", requestUrl);
+	request(requestUrl, function(error, response, body) {
+		if( !error && response.statusCode == 200) {
+			console.log("Call done!");
+		}
+
+		response = JSON.stringify(response);
+		res.json(response);
+	})
+})
+
 function makeid()
 {
     var text = "";
