@@ -43,18 +43,18 @@ class ModelThread(threading.Thread):
             self.score, self.model = adaScore, ada
         elif self.modelType == 5:
             lr = LinearRegression()
-            lr.fit(XTrain, yTrain)
-            lrScore = mean_squared_error(lr.predict(XTest), yTest)
+            lr.fit(self.XTrain, self.yTrain)
+            lrScore = mean_squared_error(lr.predict(self.XTest), self.yTest)
             self.score, self.model = lrScore, lr
         elif self.modelType == 6:
             rf = RandomForestRegressor()
-            rf.fit(XTrain, yTrain)
-            rfScore = mean_squared_error(rf.predict(XTest), yTest)
+            rf.fit(self.XTrain, self.yTrain)
+            rfScore = mean_squared_error(rf.predict(self.XTest), self.yTest)
             self.score, self.model = rfScore, rf
         elif self.modelType == 7:
             gb = GradientBoostingRegressor()
-            gb.fit(XTrain, yTrain)
-            gbScore = mean_squared_error(gb.predict(XTest), yTest)
+            gb.fit(self.XTrain, self.yTrain)
+            gbScore = mean_squared_error(gb.predict(self.XTest), self.yTest)
             self.score, self.model = gbScore, gb
 
     def getAnswer(self):
