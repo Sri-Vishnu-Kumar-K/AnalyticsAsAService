@@ -174,6 +174,15 @@ router.get("/get-selected-feat", function(req, res, next){
 	})
 })
 
+router.get("/get-user-name", function(req, res, next){
+	var data = {
+		userName: req.session.username;
+	}
+
+	data = JSON.stringify(data);
+	res.json(data);
+})
+
 
 router.post("/call-build-model", function(req, res, next){
 
