@@ -21,7 +21,7 @@ angular.module("nautilus",[])
       if(response.data.status === true) {
         if(response.data.pristine === true)
           $window.location.href = '/learn.html';
-        else 
+        else
           $window.location.href = '/trained.html';
       }else $scope.errorCallback();
     }

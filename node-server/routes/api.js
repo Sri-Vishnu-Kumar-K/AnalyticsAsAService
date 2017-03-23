@@ -55,10 +55,26 @@ router.post('/login',function(req, res, next){
 
 	loggedUser = 'SBI';
 	req.session.user = req.body;
+
+	console.log(req.body);
+	req.body.username = req.session.user.username;
+	var sendingData = {
+		userName: req.body.username
+	}
+	var requestUrl = 'http://127.0.0.1:8000/Engine/dirExists/?data=' + JSON.stringify(sendingData);
+	request(requestUrl, function(error, response, body) {
+		if( !error && response.statusCode == 200) {
+			console.log("Call done! - ", response);
+		}
+
+		console.log("/dirExists response: ", response);
+		// response = JSON.stringify(response);
+		// res.json(response);
+	})
+
 	console.log("Cookie Value /login: ", req.session.user);
 	if(req.body.username)
 		res.json(success);
-
 })
 
 
@@ -209,6 +225,23 @@ router.post("/call-get-columns", function(req, res, next){
 
 		response = JSON.stringify(response);
 		res.json(response);
+	})
+})
+
+router.post("/call-get-models", function(req, res, next){
+	var jsonData = JSON.parse(req.body.data);
+	console.log(jsonData);
+	jsonData.userName = req.session.user.username;
+	var requestUrl = 'http://127.0.0.1:8000/Engine/getModels/data='+JSON.stringify(jsonData);
+	request(requestUrl, function(error, response, body) {
+		if( !error && response.statusCode == 200) {
+			console.log("Call done!");
+		}
+
+		var responseToBeSent = response;
+		responseToBeSent.userName = req.session.username;
+		responseToBeSent = JSON.stringify(responseToBeSent);
+		res.json(responseToBeSent);
 	})
 })
 

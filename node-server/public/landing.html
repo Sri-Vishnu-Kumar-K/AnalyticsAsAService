@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="nautilusLanding">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.css" media="screen" title="no title" charset="utf-8">
+    <!--<link rel="stylesheet" href="css/bootstrap-theme.css" media="screen" title="no title" charset="utf-8">-->
+    <!--<link href="css/font-awesome.css" rel="stylesheet">-->
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/trained.css" media="screen" title="no title" charset="utf-8">
+
+    <title>Nautilus</title>
+  </head>
+  <body ng-controller="landingController">
+    <div>
+      <div ng-repeat="mod in models">
+        <a ng-click ="callGetColumns()" ng-model= {{ mod }}> {{ mod }} </a>
+      </div>
+    </div>
+
+      <script src="js/angular.js"></script>
+      <script src="js/angular-route.min.js"></script>
+      <script src="js/trained.js" charset="utf-8"></script>
+  </body>
+</html>
