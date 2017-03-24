@@ -70,6 +70,7 @@ angular.module("nautilus-learn", ['ngRoute','ngFileUpload'])
 
       $scope.features = {};
       $scope.filepath = "";
+      console.log("step-2");
       $http.get("/get-file-path", {}).then(function(response){
           console.log(response.data.filepath)
           $scope.filepath = response.data.filepath;
@@ -206,7 +207,7 @@ angular.module("nautilus-learn", ['ngRoute','ngFileUpload'])
     if($scope.predType == 0) $scope.dispVal = "Accuracy"; else $scope.dispVal = "Mean Squared Error";
 
     $scope.finish = function(){
-      $window.location.href = '/trained.html';
+      $window.location.href = '/landing.html';
     }
 }])
 

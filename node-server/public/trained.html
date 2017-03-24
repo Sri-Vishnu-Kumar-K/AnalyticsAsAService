@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/bootstrap.css" media="screen" title="no title" charset="utf-8">
     <!--<link rel="stylesheet" href="css/bootstrap-theme.css" media="screen" title="no title" charset="utf-8">-->
     <!--<link href="css/font-awesome.css" rel="stylesheet">-->
-    
+
     <link href='https://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/trained.css" media="screen" title="no title" charset="utf-8">
     <title>Nautilus</title>
@@ -20,8 +20,8 @@
           <button class="logout">Log Out</button>
         </div>
       </div>
-        
-    <div class="container form-box">  
+
+    <div class="container form-box">
       <form name="scoreForm" ng-submit="scoreChecker()" novalidate>
         <div class="pratheep-box">
             <div ng-repeat="(key,value) in pval" class="form-group" ng-class="{'has-error': scoreForm.{{key.split(' ').join('')}}.$error.required && !scoreForm.{{key.split(' ').join('')}}.$pristine}">
@@ -36,7 +36,7 @@
               </div>
           </form>
       </div>
-      
+
       <div class="pop-up-cover" ng-show="popup">
         <div class="pop-up-box">
           <center>
@@ -48,9 +48,9 @@
            <button ng-click="dismissPopup()" class="proceed-button">Dismiss</button>
         </div>
       </div>
-    
+
     </div>
-    
+
       <script src="js/angular.js"></script>
       <script src="js/angular-route.min.js"></script>
       <script src="js/trained.js" charset="utf-8"></script>

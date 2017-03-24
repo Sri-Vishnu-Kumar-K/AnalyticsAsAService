@@ -12,15 +12,26 @@
 
     <title>Nautilus</title>
   </head>
-  <body ng-controller="landingController">
-    <div>
+  <body>
+      <div class="top-bar">
+        <div class="logo-box"><img style="display: inline-block; float: left" src="img/logo-dark.png" width="100%"/></div>
+        <div class="right-buttons">
+          <button class="start-over">Start Over</button>
+          <button class="logout">Log Out</button>
+        </div>
+      </div>
+    <div ng-controller="landingController">
+      <div class="pratheep-box-1">
       <div ng-repeat="mod in models">
-        <a ng-click ="callGetColumns()" ng-model= {{ mod }}> {{ mod }} </a>
+        <a ng-click ="callGetColumns()" ng-model= mod><label class="pratheep-box-2"> {{ mod }}</label></a>
+      </div>
       </div>
     </div>
 
       <script src="js/angular.js"></script>
       <script src="js/angular-route.min.js"></script>
       <script src="js/trained.js" charset="utf-8"></script>
+      <script src="js/landing.js" charset="utf-8"></script>
+      <script src="js/learn.js" charset="utf-8"></script>
   </body>
 </html>

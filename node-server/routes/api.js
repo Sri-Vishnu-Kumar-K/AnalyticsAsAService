@@ -3,11 +3,12 @@ var router = express.Router();
 var formidable = require('formidable');
 var fs = require('fs');
 var util = require('util');
+var sh = require('shelljs');
 var request = require('request');
 
 var mongoose = require('mongoose');
-var DB_URI = 'mongodb://admin:admin123@localhost:27017';
-mongoose.connect(DB_URI);
+//var DB_URI = 'mongodb://admin:admin123@localhost:27017';
+//mongoose.connect(DB_URI);
 
 
 var User = require("../models/user");
@@ -64,10 +65,10 @@ router.post('/login',function(req, res, next){
 	var requestUrl = 'http://127.0.0.1:8000/Engine/dirExists/?data=' + JSON.stringify(sendingData);
 	request(requestUrl, function(error, response, body) {
 		if( !error && response.statusCode == 200) {
-			console.log("Call done! - ", response);
+			console.log("Call done!");
 		}
 
-		console.log("/dirExists response: ", response);
+		//console.log("/dirExists response: ", response);
 		// response = JSON.stringify(response);
 		// res.json(response);
 	})
@@ -91,7 +92,7 @@ router.post('/upload', function(req,res,next){
 		data = fs.readFileSync(files.file.path);
 
 		var idText = makeid();
-		var filepath = "/home/ronaktanna/Desktop/FinalYearProject/AnalyticsAsAService/datasets/" + idText + ".csv";
+		var filepath = sh.pwd()+"/datasets/" + idText + ".csv";
 
 		fs.writeFile(filepath , data, function(err) {
 			if(err) {
@@ -108,16 +109,18 @@ router.post('/upload', function(req,res,next){
 					console.log('User successfully updated!');
 				});*/
 			})
+			User.dataset = filepath;
 			console.log("Cookie value /upload: ", req.session.user);
 			res.json(success);
-			console.log("The file was saved!");
+			console.log("The file was saved!", User.dataset);
 		});
 	})
 })
 
 router.get("/get-file-path", function(req, res, next){
+	console.log("get-file-path");
 	if(loggedUser == "") loggedUser = 'SBI';
-	User.findOne({username: loggedUser},function(err, user){
+	/*User.findOne({username: loggedUser},function(err, user){
 				if(err) {
 					console.log(err);
 					res.json({});
@@ -125,16 +128,15 @@ router.get("/get-file-path", function(req, res, next){
 				var data = {
 					// filepath: User.dataset
 				}
-
-			/*	original: var data = {
+				original: var data = {
 					filepath : user.dataset
-				} */
-
+				}
+	 });*/
 			// original:	res.json(data);
-			res.json({filepath: User.dataset })
 			console.log("Cookie value /get-file-path: ", req.session.user);
-			console.log("The file path retrieved" + data.filepath);
-	})
+			//console.log("The file path retrieved" + data.filepath);
+			console.log(User.dataset);
+			res.json({filepath: User.dataset });
 })
 
 router.post("/save-selected-feat", function(req, res, next){
@@ -176,8 +178,8 @@ router.get("/get-selected-feat", function(req, res, next){
 
 router.get("/get-user-name", function(req, res, next){
 	var data = {
-		userName: req.session.username;
-	}
+		userName: req.session.username
+	};
 
 	data = JSON.stringify(data);
 	res.json(data);
@@ -241,7 +243,7 @@ router.post("/call-get-models", function(req, res, next){
 	var jsonData = JSON.parse(req.body.data);
 	console.log(jsonData);
 	jsonData.userName = req.session.user.username;
-	var requestUrl = 'http://127.0.0.1:8000/Engine/getModels/data='+JSON.stringify(jsonData);
+	var requestUrl = 'http://127.0.0.1:8000/Engine/getModels/?data='+JSON.stringify(jsonData);
 	request(requestUrl, function(error, response, body) {
 		if( !error && response.statusCode == 200) {
 			console.log("Call done!");
@@ -250,6 +252,7 @@ router.post("/call-get-models", function(req, res, next){
 		var responseToBeSent = response;
 		responseToBeSent.userName = req.session.username;
 		responseToBeSent = JSON.stringify(responseToBeSent);
+
 		res.json(responseToBeSent);
 	})
 })

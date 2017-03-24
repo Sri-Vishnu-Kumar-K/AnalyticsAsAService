@@ -1,6 +1,6 @@
 angular.module("nautilusLanding",[])
 
-.controller("landingController", function($scope){
+  .controller("landingController", ['$scope','$http','$window', function($scope,$http,$window){
 
   var tempData = {
     userName: ""
@@ -36,4 +36,4 @@ angular.module("nautilusLanding",[])
     $window.location.href = '/trained.html';
   }
 
-})
+}])

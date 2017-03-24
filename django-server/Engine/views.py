@@ -8,8 +8,9 @@ from sklearn.model_selection import train_test_split
 from . import utils
 
 def dirExists(request):
-    userName = request.GET.get('userName')
-    response = utils.createDir(userName)
+    data = request.GET.get('data')
+    data = json.loads(data)
+    response = utils.createDir(data['userName'])
     if response == True:
         return HttpResponse(json.dumps({'exists':True}))
     else:
@@ -260,8 +261,9 @@ def getColumns(request):
     return HttpResponse(json.dumps({'result':selectVars}))
 
 def getModels(request):
-    userName = request.GET.get('userName')
-    data = {'userName':userName}
+    data = request.GET.get('data')
+    print(data)
+    data = json.loads(data)
     path = utils.findUserName(data)
     models = []
     for root, dirs, files in os.walk(path):

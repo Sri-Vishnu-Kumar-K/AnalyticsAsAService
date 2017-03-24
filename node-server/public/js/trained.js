@@ -19,11 +19,10 @@ angular.module("nautilusTrain",[])
 
 	var getColsData = {
 		userName: "",
-		modelName: "12345678"//$scope.$parent.modelName,
+		modelName: $scope.mod//$scope.$parent.modelName,
 	};
 
 	console.log("getColsData: ", getColsData);
-
 	$http({
 		method: 'POST',
 		url: 'http://localhost:3000/call-get-columns',
@@ -44,7 +43,6 @@ angular.module("nautilusTrain",[])
 	},function(res){
 			console.log('err : ' + res);
 	})
-
 	$scope.result = 0;
 
 	$scope.scoreChecker = function(){
