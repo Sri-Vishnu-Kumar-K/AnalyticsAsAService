@@ -290,11 +290,13 @@ def runModel(request):
     f = open(os.path.join(path,modelName)+'.pickle','rb')
     model = pickle.load(f)
     f.close()
+    print(json.dumps(dataJson))
     # print data
-    df = pd.read_json(dataJson, orient='index', typ='Series')
+    df = pd.read_json(json.dumps(dataJson), orient='index', typ='Series')
     f = open(os.path.join(path,modelName)+'_cols.pickle','rb')
     selectVars = pickle.load(f)
     f.close()
 
     res = model.predict(df[selectVars].reshape(1, -1))
+    print(res[0])
     return HttpResponse(str(res[0]))

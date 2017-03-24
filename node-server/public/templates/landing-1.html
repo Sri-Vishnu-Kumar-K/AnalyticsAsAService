@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="nautilusTrain">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/bootstrap.css" media="screen" title="no title" charset="utf-8">
+    <!--<link rel="stylesheet" href="css/bootstrap-theme.css" media="screen" title="no title" charset="utf-8">-->
+    <!--<link href="css/font-awesome.css" rel="stylesheet">-->
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../css/trained.css" media="screen" title="no title" charset="utf-8">
+
+    <title>Nautilus</title>
+  </head>
+  <body>
+      <div class="top-bar">
+        <div class="logo-box"><img style="display: inline-block; float: left" src="../img/logo-dark.png" width="100%"/></div>
+        <div class="right-buttons">
+          <button class="start-over">Start Over</button>
+          <button class="logout">Log Out</button>
+        </div>
+      </div>
+    <div ng-controller="landingController">
+      <div class="pratheep-box-1">
+      <div ng-repeat="mod in models">
+        <a ng-click ="callGetColumns(mod)" ng-model= "mod" value="mod"><label class="pratheep-box-2"> {{ mod }}</label></a>
+      </div>
+      </div>
+    </div>
+      <script src="../js/angular.js"></script>
+      <script src="../js/angular-route.min.js"></script>
+      <script src="../js/trained.js" charset="utf-8"></script>
+      <script src="../js/landing.js" charset="utf-8"></script>
+      <script src="../js/learn.js" charset="utf-8"></script>
+  </body>
+</html>
