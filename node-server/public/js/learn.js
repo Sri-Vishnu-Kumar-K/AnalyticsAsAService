@@ -207,7 +207,7 @@ angular.module("nautilus-learn", ['ngRoute','ngFileUpload'])
     if($scope.predType == 0) $scope.dispVal = "Accuracy"; else $scope.dispVal = "Mean Squared Error";
 
     $scope.finish = function(){
-      $window.location.href = '/landing.html';
+      $window.location.href = '/trained.html';
     }
 }])
 
