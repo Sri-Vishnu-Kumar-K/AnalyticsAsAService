@@ -56,6 +56,17 @@ input::-webkit-inner-spin-button {
 	margin-right: -190px;
 }
 
+.linkDisplay{
+	border: 2px solid #26a69a;
+	height: 40px;
+	width: 100%;
+	border-radius: 70px;
+	background: rgb(38,50,56);
+	color: #e0f2f1;
+	font-size: 16px;
+	margin-bottom: 40px;
+}
+
 .start-over{
 	width: 120px;
 	height: 40px;

@@ -121,6 +121,8 @@ $http({
 	resData = JSON.parse(res.data);
 	console.log(resData.body);
 	$scope.result = parseInt(resData.body);
+	data.userName = "yourName";
+	$scope.apiLink = "http://localhost:8000/Engine/runModel/?data="+JSON.stringify(data);
 	$window.alert(parseInt(resData.body));
 	/*if($scope.result == 0) $scope.recommended = true;
 	else $scope.recommended = false;
