@@ -126,7 +126,7 @@ def buildModelClass(request):
     if resAcc < lsvcScore:
         resAcc = lsvcScore
         model = lsvc
-
+    print(lsvcScore, lsvc)
     # dt = DecisionTreeClassifier()
     # dt.fit(XTrain, yTrain)
     # dtScore = dt.score(XTest, yTest)
@@ -134,7 +134,7 @@ def buildModelClass(request):
     if resAcc < dtScore:
         resAcc = dtScore
         model = dt
-
+    print(dtScore,dt)
 
     # rf = RandomForestClassifier()
     # rf.fit(XTrain, yTrain)
@@ -143,7 +143,7 @@ def buildModelClass(request):
     if resAcc < rfScore:
         resAcc = rfScore
         model = rf
-
+    print(rfScore,rf)
     # ada = AdaBoostClassifier()
     # ada.fit(XTrain, yTrain)
     # adaScore = ada.score(XTest, yTest)
@@ -151,7 +151,7 @@ def buildModelClass(request):
     if resAcc < adaScore:
         resAcc = adaScore
         model = ada
-
+    print(adaScore, ada)
     # print model
     # print resAcc
     resAccJson = {'result': resAcc}
@@ -214,7 +214,7 @@ def buildModelRegression(request):
     if resAcc > lrScore:
         resAcc = lrScore
         model = lrScore
-
+    print(lrScore, lr)
     # rf = RandomForestRegressor()
     # rf.fit(XTrain, yTrain)
     # rfScore = mean_squared_error(rf.predict(XTest), yTest)
@@ -222,7 +222,7 @@ def buildModelRegression(request):
     if resAcc > rfScore:
         resAcc = rfScore
         model = rf
-
+    print(rfScore, rf)
     # gb = GradientBoostingRegressor()
     # gb.fit(XTrain, yTrain)
     # gbScore = mean_squared_error(gb.predict(XTest), yTest)
@@ -230,7 +230,7 @@ def buildModelRegression(request):
     if resAcc > gbScore:
         resAcc = gbScore
         model = gb
-
+    print(gbScore, gb)
     # print model
     # print resAcc
     resAccJson = {'result': resAcc}

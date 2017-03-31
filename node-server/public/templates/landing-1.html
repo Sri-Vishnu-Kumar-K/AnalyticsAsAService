@@ -13,10 +13,10 @@
     <title>Nautilus</title>
   </head>
   <body>
-      <div class="top-bar">
+      <div ng-controller="ScoreCheckerController" class="top-bar">
         <div class="logo-box"><img style="display: inline-block; float: left" src="../img/logo-dark.png" width="100%"/></div>
         <div class="right-buttons">
-          <button class="start-over">Start Over</button>
+          <button class="start-over" ng-click="startOver()">Start Over</button>
           <button class="logout">Log Out</button>
         </div>
       </div>
